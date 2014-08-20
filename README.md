@@ -15,5 +15,6 @@ It requires:
 - BeatifulSoup
 
 sudo apt-get install python-poster python-setuptools
+
 sudo easy_install beautifulsoup
 

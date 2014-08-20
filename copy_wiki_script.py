@@ -12,16 +12,6 @@ NAMESPACE_MAP = {
     'categories': 14,
 }
 
-#def download(domain, name, file):
-#    """
-#    Just download the page's xml and store it at the file
-#    """
-#    print name
-#    url = 'http://%s/wiki/Special:Export/%s?templates=1' % (
-#                domain, urllib2.quote(name)
-#            )
-#    urllib.urlretrieve(url, file)
-
 
 def download_all(domain, name, file):
     """
