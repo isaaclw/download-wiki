@@ -10,6 +10,7 @@ NAMESPACE_MAP = {
     'file': 6,
     'template': 10,
     'categories': 14,
+    'talk': 1,
 }
 
 
@@ -180,7 +181,7 @@ if __name__ == '__main__':
             default='templates.txt',
             )
     parser.add_argument('--template-dir',
-            dest='tdir',
+            dest='tedir',
             default=None,
             )
     parser.add_argument('--category-list',
@@ -189,6 +190,14 @@ if __name__ == '__main__':
             )
     parser.add_argument('--category-dir',
             dest='cdir',
+            default=None,
+            )
+    parser.add_argument('--talk-list',
+            dest='talk_list',
+            default='categories.txt',
+            )
+    parser.add_argument('--talk-dir',
+            dest='tadir',
             default=None,
             )
     args = parser.parse_args()
@@ -202,9 +211,12 @@ if __name__ == '__main__':
     if args.fdir is not None:
         copy_wiki_pages(args.domain_from, pl_cache=args.file_list,
                 ddir=args.fdir, namespace='file')
-    if args.tdir is not None:
+    if args.tedir is not None:
         copy_wiki_pages(args.domain_from, pl_cache=args.template_list,
-                ddir=args.tdir, namespace='template')
+                ddir=args.tedir, namespace='template')
     if args.cdir is not None:
         copy_wiki_pages(args.domain_from, pl_cache=args.category_list,
                 ddir=args.cdir, namespace='categories')
+    if args.tadir is not None:
+        copy_wiki_pages(args.domain_from, pl_cache=args.talk_list,
+                ddir=args.tadir, namespace='talk')
