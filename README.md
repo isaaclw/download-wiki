@@ -18,3 +18,5 @@ sudo apt-get install python-poster python-setuptools
 
 sudo easy_install beautifulsoup
 
+For an example on use cases:
+http://tech.isaaclw.com/2014/09/transwiki-copying.html
