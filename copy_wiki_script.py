@@ -95,7 +95,8 @@ def find_pages(domain, namespace='main'):
             for url in process_list:
                 print("downloading http://%s%s" % (domain, url))
                 page = requests.get("http://%s%s" % (domain, url))
-                parsed_html = BeautifulSoup(page.content)
+                parsed_html = BeautifulSoup(page.content,
+                            features="html.parser")
                 pagelist |= parse_page_for_title(parsed_html)
 
                 special_pages_processed.add(url)
