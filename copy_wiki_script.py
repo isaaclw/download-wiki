@@ -68,10 +68,10 @@ def find_pages(domain, namespace='main'):
     page = requests.get(url)
 
     def parse_page_for_title(parsed_html):
-        return [l['href'].lstrip('/wiki/').encode('utf8')
+        return set(l['href'].lstrip('/wiki/').encode('utf8')
                 for l in parsed_html.body.find('ul',
                     attrs={'class':'mw-allpages-chunk' }
-                ).findChildren('a') ]
+                ).findChildren('a'))
 
     def parse_page_for_special_page(parsed_html):
         match_url = '/index.php?title=Special:AllPages'
@@ -96,7 +96,7 @@ def find_pages(domain, namespace='main'):
                 print("downloading http://%s%s" % (domain, url))
                 page = requests.get("http://%s%s" % (domain, url))
                 parsed_html = BeautifulSoup(page.content)
-                pagelist = pagelist.union(parse_page_for_title(parsed_html))
+                pagelist |= parse_page_for_title(parsed_html)
 
                 special_pages_processed.add(url)
                 special_pages_known |= parse_page_for_special_page(parsed_html)
