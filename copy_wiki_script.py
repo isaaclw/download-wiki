@@ -18,20 +18,14 @@ def download_all(domain, name, file):
     the file
     """
     print("downloading %s to %s" % (name, file))
-    url = 'http://%s/w/index.php?title=Special:Export&action=submit' % (
+    url = 'http://%s/index.php?title=Special:Export&action=submit' % (
             domain)
 
     response = requests.post(url, {
         'templates': 1,
         'pages': name,
         })
-    print(response.content)
-    datagen, headers = poster.encode.multipart_encode(params)
-    request = urllib.Request(url, datagen, headers)
-    result = urllib.urlopen(request)
-    if not os.path.exists(os.path.split(file)[0]):
-        os.makedirs(os.path.split(file)[0])
-    open(file, 'wb').write(result.read())
+    open(file, 'wb').write(response.content)
 
 
 def download_files(domain, name, file):
