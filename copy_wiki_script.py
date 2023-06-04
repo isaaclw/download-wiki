@@ -68,7 +68,7 @@ def find_pages(domain, namespace='main'):
     page = requests.get(url)
 
     def parse_page_for_title(parsed_html):
-        return set(l['href'].lstrip('/wiki/').encode('utf8')
+        return set(l['href'].lstrip('/wiki/')
                 for l in parsed_html.body.find('ul',
                     attrs={'class':'mw-allpages-chunk' }
                 ).findChildren('a'))
@@ -126,7 +126,7 @@ def write_cache(pl_cache, cache_list):
 
     fcache = open(pl_cache, 'w')
     for page in cache_list:
-        fcache.write("%s\n" % page)
+        fcache.write("%s\n" % str(page))
     fcache.close()
     return True
 
