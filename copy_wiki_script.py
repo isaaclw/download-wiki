@@ -35,15 +35,18 @@ def download_files(domain, name, file):
     the file
     """
     print("downloading %s to %s" % (name, file))
-    name = urllib.quote(name)
     url = 'http://%s/wiki/File:%s' % (
             domain, name)
-    parsed_html = BeautifulSoup(urllib.urlopen(url))
-    page_list = [l for l in parsed_html.body.findAll('a')
-            if (len(l.findChildren('img')) > 0 or 'Full resolution' in str(l))]
+    response = requests.get(url)
+    parsed_html = BeautifulSoup(response.content, features="html.parser")
+    page_list = [l for l in parsed_html.body.find(
+            'div', attrs={'id': 'bodyContent'}).findAll('a')
+            if (len(l.findChildren('img')) > 0 or 'Original file' in str(l))]
 
     url = "http://%s%s" % (domain, page_list[0]['href'])
-    urllib.urlretrieve(url, file)
+    print('url = %s' % url)
+    response = requests.get(url)
+    open(file, 'wb').write(response.content)
 
 
 def find_pages(domain, namespace='main'):
