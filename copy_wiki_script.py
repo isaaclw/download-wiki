@@ -138,8 +138,7 @@ def get_list(domain_from, pl_cache, namespace='main'):
     return page_list
 
 
-def copy_wiki_pages(domain_from, pl_cache=None, ddir=None,
-        namespace='main'):
+def copy_wiki_pages(domain_from, pl_cache, ddir, namespace):
     """
     Specify a domain to download from
         pl_cache: a page list cache file
@@ -168,66 +167,21 @@ def copy_wiki_pages(domain_from, pl_cache=None, ddir=None,
 if __name__ == '__main__':
     import argparse
     parser = argparse.ArgumentParser()
-    parser.add_argument('--from',
+    parser.add_argument('-f', '--from',
             dest='domain_from',
             )
-    parser.add_argument('--page-list',
-            dest='page_list',
-            default='pages.txt'
-            )
-    parser.add_argument('--xml-dir',
-            dest='xdir',
-            default=None,
-            )
-    parser.add_argument('--file-list',
-            dest='file_list',
-            default='files.txt',
-            )
-    parser.add_argument('--file-dir',
-            dest='fdir',
-            default=None,
-            )
-    parser.add_argument('--template-list',
-            dest='template_list',
-            default='templates.txt',
-            )
-    parser.add_argument('--template-dir',
-            dest='tedir',
-            default=None,
-            )
-    parser.add_argument('--category-list',
-            dest='category_list',
-            default='categories.txt',
-            )
-    parser.add_argument('--category-dir',
-            dest='cdir',
-            default=None,
-            )
-    parser.add_argument('--talk-list',
-            dest='talk_list',
-            default='categories.txt',
-            )
-    parser.add_argument('--talk-dir',
-            dest='tadir',
-            default=None,
+
+    parser.add_argument('-d', '--download-folder',
+            dest='download_folder',
             )
     args = parser.parse_args()
 
     if args.domain_from is None:
         parser.error('You need to provide a domain')
 
-    if args.xdir is not None:
-        copy_wiki_pages(args.domain_from, pl_cache=args.page_list,
-                ddir=args.xdir, namespace='main')
-    if args.fdir is not None:
-        copy_wiki_pages(args.domain_from, pl_cache=args.file_list,
-                ddir=args.fdir, namespace='file')
-    if args.tedir is not None:
-        copy_wiki_pages(args.domain_from, pl_cache=args.template_list,
-                ddir=args.tedir, namespace='template')
-    if args.cdir is not None:
-        copy_wiki_pages(args.domain_from, pl_cache=args.category_list,
-                ddir=args.cdir, namespace='categories')
-    if args.tadir is not None:
-        copy_wiki_pages(args.domain_from, pl_cache=args.talk_list,
-                ddir=args.tadir, namespace='talk')
+
+    for namespace in NAMESPACE_MAP.keys():
+        copy_wiki_pages(args.domain_from,
+                pl_cache='%s/%s.txt' % (args.download_folder, namespace),
+                ddir='%s/%s' % (args.download_folder, namespace),
+                namespace=namespace)
