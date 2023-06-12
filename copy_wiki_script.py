@@ -152,7 +152,10 @@ def copy_wiki_pages(domain_from, pl_cache=None, ddir=None,
         fname = str(page).replace('/', '_')
         if namespace != 'file':
             fname += '.xml'
+
         download_file = os.path.join(ddir, fname)
+        if not os.path.exists(ddir):
+            os.makedirs(ddir)
         if os.path.isfile(download_file):
             continue
 
