@@ -35,9 +35,9 @@ def download_files(domain, name, file):
     Download the page's xml and all the related details, and store it at
     the file
     """
-    print("downloading %s to %s" % (name, file))
-    url = 'http://%s/wiki/File:%s' % (
+    url = 'http://%s/wiki/%s' % (
             domain, name)
+    print("downloading %s to %s" % (url, file))
     response = requests.get(url)
     parsed_html = BeautifulSoup(response.content, features="html.parser")
     page_list = [l for l in parsed_html.body.find(
