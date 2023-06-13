@@ -10,9 +10,6 @@ Because it is looking for specific links, you may need to make sure that the lin
 - Pages
 - Files
 
-For an example on use cases:
-http://tech.isaaclw.com/2014/09/transwiki-copying.html
-
 # install
     mkvirtualenv download-wiki
     pip3 install beautifulsoup4 requests
