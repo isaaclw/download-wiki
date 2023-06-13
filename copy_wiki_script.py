@@ -5,10 +5,19 @@ import tempfile
 from bs4 import BeautifulSoup
 NAMESPACE_MAP = {
     'main': 0,
-    'file': 6,
-    'template': 10,
-    'categories': 14,
     'talk': 1,
+    'user': 2,
+    'user talk': 3,
+    'file': 6,
+    'file talk': 7,
+    'mediawiki': 8,
+    'mediawiki talk': 9,
+    'template': 10,
+    'template talk': 11,
+    'help': 12,
+    'help talk': 13,
+    'category': 14,
+    'category talk': 15
 }
 
 
@@ -66,10 +75,13 @@ def find_pages(domain, namespace='main'):
     page = requests.get(url)
 
     def parse_page_for_title(parsed_html):
-        return set(l['href'].lstrip('/wiki/')
-                for l in parsed_html.body.find('ul',
-                    attrs={'class':'mw-allpages-chunk' }
-                ).findChildren('a'))
+        ul_obj = parsed_html.body.find('ul',
+                attrs={'class': 'mw-allpages-chunk'})
+        if not ul_obj:
+            return set([])
+        else:
+            return set(l['href'].lstrip('/wiki/')
+                for l in ul_obj.findChildren('a'))
 
     def parse_page_for_special_page(parsed_html):
         match_url = '/index.php?title=Special:AllPages'
@@ -151,11 +163,15 @@ def copy_wiki_pages(domain_from, pl_cache, ddir, namespace):
         fname = str(page).replace('/', '_')
         if namespace != 'file':
             fname += '.xml'
+        else:
+            fname = fname.replace('File:', '')
 
         download_file = os.path.join(ddir, fname)
         if not os.path.exists(ddir):
             os.makedirs(ddir)
+
         if os.path.isfile(download_file):
+            print("already downloaded: %s, skipping" % download_file)
             continue
 
         if namespace == 'file':
