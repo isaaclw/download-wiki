@@ -2,7 +2,9 @@
 import os
 import requests
 import tempfile
+from urllib.parse import unquote
 from bs4 import BeautifulSoup
+
 NAMESPACE_MAP = {
     'main': 0,
     'talk': 1,
@@ -33,7 +35,7 @@ def download_all(domain, name, file):
 
     response = requests.post(url, {
         'templates': 1,
-        'pages': name,
+        'pages': unquote(name),
         })
     open(file, 'wb').write(response.content)
 
