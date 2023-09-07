@@ -77,13 +77,17 @@ def find_pages(domain, namespace='main'):
     page = requests.get(url)
 
     def parse_page_for_title(parsed_html):
-        ul_obj = parsed_html.body.find('ul',
+        dom_obj = parsed_html.body.find('ul',
                 attrs={'class': 'mw-allpages-chunk'})
-        if not ul_obj:
+        if dom_obj is None:
+            dom_obj = parsed_html.body.find('table',
+                    attrs={'class':'mw-allpages-table-chunk'})
+
+        if not dom_obj:
             return set([])
         else:
             return set(l['href'].lstrip('/wiki/')
-                for l in ul_obj.findChildren('a'))
+                for l in dom_obj.findChildren('a'))
 
     def parse_page_for_special_page(parsed_html):
         match_url = '/index.php?title=Special:AllPages'
