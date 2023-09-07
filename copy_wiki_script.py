@@ -128,6 +128,9 @@ def load_cache(pl_cache):
 
     try:
         fcache = open(pl_cache, 'r')
+    except FileNotFoundError:
+        os.makedirs(os.path.dirname(pl_cache), exist_ok=True)
+        open(pl_cache, 'a').close()
     except IOError:
         open(pl_cache, 'a').close()
     else:
