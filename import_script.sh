@@ -1,7 +1,7 @@
 #!/bin/bash
 set -e
 
-php_ini=/home/isaac/.php.ini
+php_ini=~/.php.ini  # Local version of the file: /etc/php/7.4/fpm/php.ini in case I needed to make any modifications
 user=www-data
 
 application=$1
